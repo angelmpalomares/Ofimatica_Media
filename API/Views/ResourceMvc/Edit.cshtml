@@ -1,0 +1,52 @@
+﻿@using Infrastructure.Models.ViewModels
+@model EditResourceVm
+@{
+    ViewData["Title"] = "Editar recurso";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded">
+                <div class="card-header bg-warning text-dark text-center">
+                    <h3 class="mb-0">✏️ Editar Recurso</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" asp-route-resourceId="@Model.ResourceId" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Author" class="form-label"></label>
+                            <input asp-for="Author" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label"></label>
+                            <textarea asp-for="Description" class="form-control"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Publication" class="form-label"></label>
+                            <select asp-for="Publication" class="form-select">
+                                @{
+                                    var currentYear = DateTime.Now.Year;
+                                    for (int year = currentYear; year >= 1900; year--)
+                                    {
+                                        <option value="@year">@year</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="Publication" class="text-danger"></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary">💾 Actualizar</button>
+                            <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

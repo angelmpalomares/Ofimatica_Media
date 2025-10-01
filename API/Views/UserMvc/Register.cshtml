@@ -1,0 +1,60 @@
+﻿@using Infrastructure.Models.ViewModels
+@model RegisterUserVm
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded">
+                <div class="card-header bg-success text-white text-center">
+                    <h3 class="mb-0">📝 Registro de Usuario</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Register" method="post" novalidate>
+                        <div class="mb-3">
+                            <label asp-for="Username" class="form-label"></label>
+                            <input asp-for="Username" class="form-control" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Introduce tu contraseña" />
+                            <small class="form-text text-muted">
+                                La contraseña debe tener al menos 12 caracteres, incluir mayúsculas, minúsculas, números y un carácter especial.
+                            </small>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Surname" class="form-label"></label>
+                            <input asp-for="Surname" class="form-control" />
+                            <span asp-validation-for="Surname" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <button class="btn btn-success btn-lg">✅ Registrarme</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-muted text-center">
+                    ¿Ya tienes cuenta? <a asp-action="Login" class="text-decoration-none">Inicia sesión aquí</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

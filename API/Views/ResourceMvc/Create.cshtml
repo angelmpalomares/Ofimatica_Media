@@ -1,0 +1,63 @@
+﻿@using Infrastructure.Models.ViewModels
+@model CreateResourceVm
+@{
+    ViewData["Title"] = "Crear recurso";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded">
+                <div class="card-header bg-success text-white text-center">
+                    <h3 class="mb-0">➕ Crear Recurso</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Author" class="form-label"></label>
+                            <input asp-for="Author" class="form-control" />
+                            <span asp-validation-for="Author" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label"></label>
+                            <textarea asp-for="Description" class="form-control"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="ResourceType" class="form-label"></label>
+                            <select asp-for="ResourceType" class="form-select">
+                                <option value="Libro">Libro</option>
+                                <option value="Musica">Musica</option>
+                                <option value="Pelicula">Pelicula</option>
+                            </select>
+                            <span asp-validation-for="ResourceType" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Publication" class="form-label"></label>
+                            <select asp-for="Publication" class="form-select">
+                                @for (int year = DateTime.Now.Year; year >= 1900; year--)
+                                {
+                                    <option value="@year">@year</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Publication" class="text-danger"></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-success">💾 Guardar</button>
+                            <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

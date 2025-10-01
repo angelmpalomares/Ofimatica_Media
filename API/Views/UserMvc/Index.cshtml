@@ -1,0 +1,76 @@
+﻿<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>👥 Gestión de Usuarios</h2>
+    </div>
+
+    <form method="get" class="row g-2 mb-3">
+        <div class="col">
+            <input type="text" name="username" value="@Context.Request.Query["username"]" class="form-control" placeholder="Buscar por usuario..." />
+        </div>
+        <div class="col">
+            <select name="isActive" class="form-select">
+                <option value="">-- Estado --</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-outline-primary">🔍 Filtrar</button>
+        </div>
+    </form>
+
+    <table class="table table-striped table-hover shadow-sm rounded">
+        <thead class="table-dark">
+            <tr>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                    <td>@user.Name @user.Surname</td>
+                    <td>
+                        @if (user.IsActive)
+                        {
+                            <span class="badge bg-success">Activo</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Inactivo</span>
+                        }
+                    </td>
+                    <td class="text-center">
+                        @if (user.IsActive)
+                        {
+                            <form asp-controller="UserMvc" asp-action="Deactivate" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@user.UserId" />
+                                <button class="btn btn-sm btn-danger">Desactivar</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-controller="UserMvc" asp-action="Activate" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@user.UserId" />
+                                <button class="btn btn-sm btn-success">Activar</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between mt-3">
+        <span>📄 Página @ViewData["PageNumber"]</span>
+        <span>👤 Total: @ViewData["Total"] usuarios</span>
+    </div>
+</div>

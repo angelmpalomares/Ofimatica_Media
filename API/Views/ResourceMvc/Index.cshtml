@@ -1,0 +1,111 @@
+﻿@using Application.Services.Implementations
+@using Infrastructure.Dtos;
+
+@model PagedCollectionResponse<GetResourceDto>
+
+@{
+    ViewData["Title"] = "Listado de Recursos";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>📚 Listado de Recursos</h2>
+
+        @if (User.Identity?.IsAuthenticated ?? false)
+        {
+            <a asp-action="Create" class="btn btn-success">➕ Añadir recurso</a>
+        }
+    </div>
+
+    <form method="get" class="row g-2 mb-3">
+        <div class="col-md-3">
+            <input type="text" name="Name" value="@Context.Request.Query["Name"]" class="form-control" placeholder="Buscar por nombre..." />
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="Author" value="@Context.Request.Query["Author"]" class="form-control" placeholder="Buscar por autor..." />
+        </div>
+        <div class="col-md-2">
+            <select name="ResourceType" class="form-select">
+                <option value="">-- Tipo --</option>
+                <option value="Libro">Libro</option>
+                <option value="Pelicula">Película</option>
+                <option value="Musica">Música</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="number" name="Year" value="@Context.Request.Query["Year"]" class="form-control" placeholder="Año" />
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-outline-primary w-100">🔍 Filtrar</button>
+        </div>
+    </form>
+
+    <table class="table table-striped table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Autor</th>
+                <th>Tipo</th>
+                <th>Año</th>
+                <th>Descripción</th>
+                @if (User.IsInRole("Admin"))
+                {
+                    <th>Acciones</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var resource in Model.Items)
+            {
+                <tr>
+                    <td>@resource.Name</td>
+                    <td>@resource.Author</td>
+                    <td>@resource.ResourceType</td>
+                    <td>@resource.Publication</td>
+                    <td>@resource.Description</td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#detailModal-@resource.ResourceId">
+                            👁 Ver detalle
+                        </button>
+                        <div class="modal fade" id="detailModal-@resource.ResourceId" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">@resource.Name</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Autor:</strong> @resource.Author</p>
+                                        <p><strong>Tipo:</strong> @resource.ResourceType</p>
+                                        <p><strong>Año:</strong> @resource.Publication</p>
+                                        <p><strong>Descripción:</strong></p>
+                                        <p>@resource.Description</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            <a asp-action="Edit" asp-route-resourceId="@resource.ResourceId" class="btn btn-warning btn-sm">✏️ Editar</a>
+
+                            <form asp-action="Delete" asp-route-resourceId="@resource.ResourceId" method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-sm">🗑️ Eliminar</button>
+                            </form>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between mt-3">
+        <span>Página @(Context.Request.Query["PageNumber"].Count == 0 ? 1 : Context.Request.Query["PageNumber"])</span>
+        <span>Total: @Model.Total recursos</span>
+    </div>
+</div>
