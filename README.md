@@ -16,20 +16,20 @@ Antes de comenzar, asegúrate de tener instalado:
 
 ## Configuración de la base de datos
 
-- 1. Edita el archivo `appsettings.json` en el proyecto **API** y ajusta tu conexión MySQL:
+- Edita el archivo `appsettings.json` en el proyecto **API** y ajusta tu conexión MySQL:
 
    ```sh json
    "ConnectionStrings": {
      "DefaultConnection": "server=localhost;port=3306;user=root;password=tu_password;database=ofimatica_media"
    }
 
-- 2. Abre la consola en el proyecto Infrastructure y ejecuta el comando 
-   ```sh dotnet ef database update```
+- Abre la consola en el proyecto Infrastructure y ejecuta el comando 
+   ```dotnet ef database update```
 
 ## Ejecución del proyecto
-- 1. Abre la solución en Visual Studio
-- 2. Asegúrate de que API es el proyecto de inicio.
-- 3. Ejecuta con IIS Express (Se abrirá en https://localhost:44351)
+- Abre la solución en Visual Studio
+- Asegúrate de que API es el proyecto de inicio.
+- Ejecuta con IIS Express (Se abrirá en https://localhost:44351)
 
 ## Credenciales iniciales
 Se han añadido dos usuarios base para poder realizar las funciones de usuario y de admin
